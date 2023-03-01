@@ -158,6 +158,9 @@ MonoBehaviour:
   airAcceleration: 30
   groundDeceleration: 70
   jumpHeight: 4
+  wallAcceleration: 75
+  dashKey: 304
+  dashLength: 20
 --- !u!212 &7893897
 SpriteRenderer:
   m_ObjectHideFlags: 0

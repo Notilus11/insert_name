@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
@@ -21,6 +22,19 @@ public class movement : MonoBehaviour
     [SerializeField, Tooltip("Max height the character will jump regardless of gravity")]
     float jumpHeight = 4;
 
+    [SerializeField, Tooltip("Acceleration in wall jump.")]
+    float wallAcceleration = 75;
+
+    [SerializeField, Tooltip("Keybind to trigger the dash.")]
+    KeyCode dashKey = KeyCode.LeftShift;
+
+    [SerializeField, Tooltip("Length of the dash.")]
+    int dashLength = 20;
+
+    private bool hasDash = true;
+
+    private bool shouldWallJump = false;
+    
     private BoxCollider2D boxCollider;
 
     private Vector2 velocity;
@@ -43,6 +57,8 @@ public class movement : MonoBehaviour
 
         if (grounded)
         {
+            hasDash = true;
+            
             velocity.y = 0;
 
             if (Input.GetButtonDown("Jump"))
@@ -52,12 +68,31 @@ public class movement : MonoBehaviour
             }
         }
 
-        float acceleration = grounded ? walkAcceleration : airAcceleration;
+        float acceleration = grounded ? walkAcceleration : shouldWallJump ? wallAcceleration : airAcceleration;
+
         float deceleration = grounded ? groundDeceleration : 0;
 
         if (moveInput != 0)
         {
-            velocity.x = Mathf.MoveTowards(velocity.x, speed * moveInput, acceleration * Time.deltaTime);
+            if (Input.GetKeyDown(dashKey) && hasDash)
+            {
+                velocity.x = Mathf.MoveTowards(velocity.x, speed * moveInput * dashLength,
+                    acceleration * dashLength * Time.deltaTime);
+                hasDash = false;
+            }
+            else
+            {
+                if (shouldWallJump)
+                {
+                    velocity.x = Mathf.MoveTowards(velocity.x, speed * 2 * moveInput, acceleration * speed * 2 * Time.deltaTime);
+                    velocity.y = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y));
+                    shouldWallJump = false;
+                }
+                else
+                {
+                    velocity.x = Mathf.MoveTowards(velocity.x, speed * moveInput, acceleration * Time.deltaTime);
+                }
+            }
         }
         else
         {
@@ -92,6 +127,14 @@ public class movement : MonoBehaviour
                 if (Vector2.Angle(colliderDistance.normal, Vector2.up) < 90 && velocity.y < 0)
                 {
                     grounded = true;
+                }
+
+                if (!grounded)
+                {
+                    if (Input.GetButtonDown("Jump"))
+                    {
+                        shouldWallJump = true;
+                    }
                 }
             }
         }
