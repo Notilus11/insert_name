@@ -30,9 +30,14 @@ public class movement : MonoBehaviour
 
     [SerializeField, Tooltip("Length of the dash.")]
     int dashLength = 20;
+    
+    [SerializeField, Tooltip("Length of the dash in air.")]
+    int dashInAirLength = 20;
 
     private bool hasDash = true;
-
+    
+    private bool canWallJump = true;
+    
     private bool shouldWallJump = false;
     
     private BoxCollider2D boxCollider;
@@ -54,6 +59,7 @@ public class movement : MonoBehaviour
     {
         // Use GetAxisRaw to ensure our input is either 0, 1 or -1.
         float moveInput = Input.GetAxisRaw("Horizontal");
+        float directionInput = Input.GetAxisRaw("Vertical");
 
         if (grounded)
         {
@@ -70,14 +76,21 @@ public class movement : MonoBehaviour
 
         float acceleration = grounded ? walkAcceleration : shouldWallJump ? wallAcceleration : airAcceleration;
 
+        float dashLen = grounded ? dashLength : dashInAirLength;
+
         float deceleration = grounded ? groundDeceleration : 0;
 
         if (moveInput != 0)
         {
             if (Input.GetKeyDown(dashKey) && hasDash)
             {
-                velocity.x = Mathf.MoveTowards(velocity.x, speed * moveInput * dashLength,
-                    acceleration * dashLength * Time.deltaTime);
+                if (directionInput > 0)
+                {
+                    velocity.y = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y));
+                }
+                
+                velocity.x = Mathf.MoveTowards(velocity.x, speed * moveInput * dashLen, acceleration * dashLen * Time.deltaTime);
+                
                 hasDash = false;
             }
             else
@@ -131,10 +144,15 @@ public class movement : MonoBehaviour
 
                 if (!grounded)
                 {
-                    if (Input.GetButtonDown("Jump"))
+                    if (Input.GetButtonDown("Jump") && canWallJump)
                     {
                         shouldWallJump = true;
+                        canWallJump = false;
                     }
+                }
+                else
+                {
+                    canWallJump = true;
                 }
             }
         }
