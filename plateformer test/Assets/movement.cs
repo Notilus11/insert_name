@@ -17,7 +17,7 @@ public class movement : MonoBehaviour
     float airAcceleration = 30;
 
     [SerializeField, Tooltip("Deceleration applied when character is grounded and not attempting to move.")]
-    float groundDeceleration = 70;
+    float groundDeceleration = 150;
 
     [SerializeField, Tooltip("Max height the character will jump regardless of gravity")]
     float jumpHeight = 4;
@@ -107,18 +107,20 @@ public class movement : MonoBehaviour
             {
                 velocity.x = 0;
             }
+            
+            oMoveInput = moveInput;
         }
         else
         {
-            velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
+            velocity.x = 0;
+            //velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
         }
 
         velocity.y += Physics2D.gravity.y * Time.deltaTime;
         
         transform.Translate(velocity * Time.deltaTime); 
         grounded = false;
-
-        oMoveInput = moveInput;
+        
         // Retrieve all colliders we have intersected after velocity has been applied.
         Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position, boxCollider.size, 0);
 
