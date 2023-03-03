@@ -30,20 +30,18 @@ public class movement : MonoBehaviour
 
     [SerializeField, Tooltip("Length of the dash.")]
     int dashLength = 20;
-    
-    [SerializeField, Tooltip("Length of the dash in air.")]
-    int dashInAirLength = 20;
 
     private bool hasDash = true;
-    
+
     private bool canWallJump = true;
     
     private bool shouldWallJump = false;
     
     private BoxCollider2D boxCollider;
 
-    private Vector2 velocity;
+    private float oMoveInput = 0;
 
+    private Vector2 velocity;
     /// <summary>
     /// Set to true when the character intersects a collider beneath
     /// them in the previous frame.
@@ -76,8 +74,6 @@ public class movement : MonoBehaviour
 
         float acceleration = grounded ? walkAcceleration : shouldWallJump ? wallAcceleration : airAcceleration;
 
-        float dashLen = grounded ? dashLength : dashInAirLength;
-
         float deceleration = grounded ? groundDeceleration : 0;
 
         if (moveInput != 0)
@@ -89,15 +85,15 @@ public class movement : MonoBehaviour
                     velocity.y = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y));
                 }
                 
-                velocity.x = Mathf.MoveTowards(velocity.x, speed * moveInput * dashLen, acceleration * dashLen * Time.deltaTime);
-                
+                velocity.x = Mathf.MoveTowards(velocity.x, dashLength * moveInput, acceleration * dashLength * Time.deltaTime);
+
                 hasDash = false;
             }
             else
             {
                 if (shouldWallJump)
                 {
-                    velocity.x = Mathf.MoveTowards(velocity.x, speed * 2 * moveInput, acceleration * speed * 2 * Time.deltaTime);
+                    velocity.x = Mathf.MoveTowards(velocity.x, speed * 2 * (0 - moveInput), acceleration * speed * 2 * Time.deltaTime);
                     velocity.y = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y));
                     shouldWallJump = false;
                 }
@@ -106,6 +102,11 @@ public class movement : MonoBehaviour
                     velocity.x = Mathf.MoveTowards(velocity.x, speed * moveInput, acceleration * Time.deltaTime);
                 }
             }
+
+            if (moveInput != oMoveInput)
+            {
+                velocity.x = 0;
+            }
         }
         else
         {
@@ -113,11 +114,11 @@ public class movement : MonoBehaviour
         }
 
         velocity.y += Physics2D.gravity.y * Time.deltaTime;
-
-        transform.Translate(velocity * Time.deltaTime);
-
+        
+        transform.Translate(velocity * Time.deltaTime); 
         grounded = false;
 
+        oMoveInput = moveInput;
         // Retrieve all colliders we have intersected after velocity has been applied.
         Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position, boxCollider.size, 0);
 

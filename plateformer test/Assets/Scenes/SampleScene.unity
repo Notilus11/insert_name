@@ -160,8 +160,7 @@ MonoBehaviour:
   jumpHeight: 4
   wallAcceleration: 75
   dashKey: 304
-  dashLength: 15
-  dashInAirLength: 25
+  dashLength: 25
 --- !u!212 &7893897
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -323,7 +322,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9858491, g: 1, b: 0.9972303, a: 1}
+      key0: {r: 0.4710132, g: 1, b: 0, a: 1}
       key1: {r: 1, g: 0.2117647, b: 0.27080816, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}

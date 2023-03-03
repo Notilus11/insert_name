@@ -114,11 +114,20 @@
  <Reference Include="Unity.2D.Animation.Editor">
  <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Sysroot.Linux_x86_64">
+ <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.Sysroot.Linux_x86_64.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.VisualStudio.Editor">
  <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Toolchain.Linux-x86_64">
+ <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.Toolchain.Linux-x86_64.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.Mathematics.Editor">
  <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.SysrootPackage.Editor">
+ <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.SysrootPackage.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
  <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
@@ -134,15 +143,6 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Sysroot.Linux_x86_64">
- <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.Sysroot.Linux_x86_64.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Toolchain.Linux-x86_64">
- <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.Toolchain.Linux-x86_64.dll</HintPath>
- </Reference>
- <Reference Include="Unity.SysrootPackage.Editor">
- <HintPath>/home/nox/Documents/unity/projets/insert_name/plateformer test/Library/ScriptAssemblies/Unity.SysrootPackage.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>/home/nox/Unity/Hub/Editor/2019.4.40f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
